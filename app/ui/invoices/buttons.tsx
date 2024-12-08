@@ -1,5 +1,11 @@
-import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
+import {
+  PencilIcon,
+  PlusIcon,
+  TrashIcon,
+  DocumentDuplicateIcon,
+} from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { deleteInvoice, duplicateInvoice } from "@/app/lib/actions";
 
 export function CreateInvoice() {
   return (
@@ -16,7 +22,7 @@ export function CreateInvoice() {
 export function UpdateInvoice({ id }: { id: string }) {
   return (
     <Link
-      href="/dashboard/invoices"
+      href={`/dashboard/invoices/${id}/edit`}
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <PencilIcon className="w-5" />
@@ -25,12 +31,27 @@ export function UpdateInvoice({ id }: { id: string }) {
 }
 
 export function DeleteInvoice({ id }: { id: string }) {
+  const deleteInvoiceWithId = deleteInvoice.bind(null, id);
+
   return (
-    <>
-      <button className="rounded-md border p-2 hover:bg-gray-100">
-        <span className="sr-only">Delete</span>
-        <TrashIcon className="w-5" />
-      </button>
-    </>
+      <form action={deleteInvoiceWithId}>
+        <button className="rounded-md border p-2 hover:bg-gray-100">
+          <span className="sr-only">Delete</span>
+          <TrashIcon className="w-5"/>
+        </button>
+      </form>
+  );
+}
+
+export function DuplicateInvoice({ id }: { id: string }) {
+  const duplicateInvoiceWithId = duplicateInvoice.bind(null, id);
+
+  return (
+      <form action={duplicateInvoiceWithId}>
+        <button className="rounded-md border p-2 hover:bg-gray-100">
+          <span className="sr-only">Duplicate</span>
+          <DocumentDuplicateIcon className="w-5"/>
+        </button>
+      </form>
   );
 }
